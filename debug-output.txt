@@ -1,0 +1,6 @@
+Insert Error Full Object: {
+  "code": "22P02",
+  "details": null,
+  "hint": null,
+  "message": "invalid input syntax for type bigint: \"user_dummy_1771336198936\""
+}
