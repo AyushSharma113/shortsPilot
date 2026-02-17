@@ -16,6 +16,10 @@ import {
   Github
 } from "lucide-react";
 
+import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
+
+// ... (keep imports)
+
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground overflow-x-hidden">
@@ -34,12 +38,24 @@ export default function Home() {
             <Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground hidden sm:block">
-              Log in
-            </Link>
-            <Button size="sm" className="rounded-full px-6">
-              Get Started
-            </Button>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button variant="ghost" className="text-sm font-medium text-muted-foreground hover:text-foreground hidden sm:block">
+                  Log in
+                </Button>
+              </SignInButton>
+              <SignInButton mode="modal">
+                <Button size="sm" className="rounded-full px-6">
+                  Get Started
+                </Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <Link href="/dashboard">
+                 <Button size="sm" variant="outline" className="mr-2">Dashboard</Button>
+              </Link>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </header>
