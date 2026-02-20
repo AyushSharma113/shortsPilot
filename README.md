@@ -40,7 +40,7 @@ Built with modern web technologies, ShortsPilot helps creators automate content 
 
 ## 🏗 Architecture Overview
 
-1. User enters video topic
+1. User enters video topics
 2. AI generates script
 3. Voiceover is created
 4. Images/video assets generated
