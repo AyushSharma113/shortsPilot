@@ -31,10 +31,12 @@ export function Sidebar() {
 
       {/* Main Content */}
       <div className="flex-1 px-4 py-6 space-y-6">
-        <Button className="w-full justify-start gap-2 h-12 text-base font-semibold shadow-md" size="lg">
-          <Plus className="h-5 w-5" />
-          Create New Series
-        </Button>
+        <Link href="/dashboard/create">
+            <Button className="w-full justify-start gap-2 h-12 text-base font-semibold shadow-md" size="lg">
+            <Plus className="h-5 w-5" />
+            Create New Series
+            </Button>
+        </Link>
 
         <nav className="space-y-2">
           <Link href="/dashboard/series">
