@@ -3,17 +3,21 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { SeriesSchedule } from "@/components/create/steps/series-schedule";
+import { CaptionStyleSelection } from "@/components/create/steps/caption-style";
+import { VideoStyleSelection } from "@/components/create/steps/video-style";
 import { NicheSelection } from "@/components/create/steps/niche-selection";
 import { LanguageVoiceSelection } from "@/components/create/steps/language-voice";
+import { BackgroundMusicSelection } from "@/components/create/steps/background-music";
 import { Check } from "lucide-react";
 
 const steps = [
   "Niche",
   "Language & Voice",
-  "Video Style", 
   "Background Music", 
-  "Schedule", 
-  "Review"
+  "Video Style", 
+  "Caption Style",
+  "Schedule"
 ];
 
 export function CreateSeriesWizard() {
@@ -83,16 +87,34 @@ export function CreateSeriesWizard() {
                 onBack={prevStep}
              />
         )}
-        {/* Placeholder for other steps */}
-        {currentStep > 2 && (
-             <div className="p-10 text-center border rounded-lg bg-card">
-                <h2 className="text-xl font-bold">Step {currentStep}: {steps[currentStep-1]}</h2>
-                <p className="text-muted-foreground mt-2">Placeholder for step {currentStep}</p>
-                <div className="mt-6 flex justify-between">
-                    <Button variant="outline" onClick={prevStep}>Back</Button>
-                    <Button onClick={() => nextStep()}>Continue</Button>
-                </div>
-            </div>
+
+        {currentStep === 3 && (
+             <BackgroundMusicSelection 
+                onNext={handleStepComplete} 
+                onBack={prevStep}
+             />
+        )}
+        {currentStep === 4 && (
+             <VideoStyleSelection 
+                onNext={handleStepComplete} 
+                onBack={prevStep}
+             />
+        )}
+        {currentStep === 5 && (
+             <CaptionStyleSelection 
+                onNext={handleStepComplete} 
+                onBack={prevStep}
+             />
+        )}
+        {currentStep === 6 && (
+             <SeriesSchedule 
+                onNext={(data) => {
+                  setFormData({ ...formData, ...data });
+                  console.log("Final Series Data:", { ...formData, ...data });
+                  alert("Series Scheduled Successfully!");
+                }} 
+                onBack={prevStep}
+             />
         )}
       </div>
     </div>

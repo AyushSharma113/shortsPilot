@@ -47,17 +47,13 @@ export function LanguageVoiceSelection({ onNext, onBack }: LanguageVoiceSelectio
     }
 
     // Play new audio
-    // Note: In a real app, you would need actual URLs. 
-    // For demo, we'll assume these files exist in public folder or use a placeholder.
-    // audioRef.current = new Audio(`/voices/${previewUrl}`); 
-    // Since we don't have files, we'll simulate play state for UI demo.
-    console.log(`Playing preview: ${previewUrl}`);
+    audioRef.current = new Audio(`/voices/${previewUrl}`);
+    audioRef.current.play().catch(e => console.error("Audio playback error:", e));
     setIsPlaying(voiceId);
 
-    // Auto reset after 3 seconds for demo
-    setTimeout(() => {
-        if (isPlaying === voiceId) setIsPlaying(null);
-    }, 3000);
+    audioRef.current.onended = () => {
+        setIsPlaying((current) => current === voiceId ? null : current);
+    };
   };
 
   const handleNext = () => {
