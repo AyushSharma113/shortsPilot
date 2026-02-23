@@ -148,7 +148,7 @@ export const FonadalabVoices = [
 
         "modelName": "vanee",
 
-        "preview": "fonadalab-vanee.mp3",
+        "preview": "fonadalab-Vaanee.mp3",
 
         "gender": "female"
 
@@ -160,7 +160,7 @@ export const FonadalabVoices = [
 
         "modelName": "chitraa",
 
-        "preview": "fonadalab-chitraa.mp3",
+        "preview": "fonadalab-Chaitra.mp3",
 
         "gender": "female"
 
@@ -172,7 +172,7 @@ export const FonadalabVoices = [
 
         "modelName": "raaga",
 
-        "preview": "fonadalab-raaga.mp3",
+        "preview": "fonadalab-Meghra.mp3",
 
         "gender": "male"
 
@@ -184,7 +184,7 @@ export const FonadalabVoices = [
 
         "modelName": "nirvani",
 
-        "preview": "fonadalab-nirvani.mp3",
+        "preview": "fonadalab-Nirvani.mp3",
 
         "gender": "female"
 
