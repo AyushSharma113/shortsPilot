@@ -39,10 +39,11 @@ const backgroundMusicOptions = [
 interface BackgroundMusicSelectionProps {
   onNext: (data: { backgroundMusicIds: string[] }) => void;
   onBack: () => void;
+  initialData?: { backgroundMusicIds?: string[] };
 }
 
-export function BackgroundMusicSelection({ onNext, onBack }: BackgroundMusicSelectionProps) {
-  const [selectedMusic, setSelectedMusic] = useState<string[]>([]);
+export function BackgroundMusicSelection({ onNext, onBack, initialData }: BackgroundMusicSelectionProps) {
+  const [selectedMusic, setSelectedMusic] = useState<string[]>(initialData?.backgroundMusicIds || []);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 

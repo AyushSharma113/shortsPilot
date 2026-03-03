@@ -19,13 +19,15 @@ const platforms = [
 interface SeriesScheduleProps {
   onNext: (data: any) => void;
   onBack: () => void;
+  isSubmitting?: boolean;
+  initialData?: any;
 }
 
-export function SeriesSchedule({ onNext, onBack }: SeriesScheduleProps) {
-  const [seriesName, setSeriesName] = useState("");
-  const [duration, setDuration] = useState("");
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
-  const [publishTime, setPublishTime] = useState("");
+export function SeriesSchedule({ onNext, onBack, isSubmitting = false, initialData }: SeriesScheduleProps) {
+  const [seriesName, setSeriesName] = useState(initialData?.seriesName || initialData?.series_name || "");
+  const [duration, setDuration] = useState(initialData?.duration || "");
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(initialData?.platforms || []);
+  const [publishTime, setPublishTime] = useState(initialData?.publishTime || initialData?.publish_time || "");
 
   const togglePlatform = (id: string) => {
     setSelectedPlatforms((prev) => 
@@ -142,7 +144,8 @@ export function SeriesSchedule({ onNext, onBack }: SeriesScheduleProps) {
       <StepNavigation 
         onBack={onBack}
         onNext={handleNext}
-        isNextDisabled={!isFormValid}
+        isNextDisabled={!isFormValid || isSubmitting}
+        isSubmitting={isSubmitting}
         nextLabel="Schedule Series"
         className="pt-2 border-t-0 mt-4"
       />

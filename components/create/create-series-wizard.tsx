@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { SeriesSchedule } from "@/components/create/steps/series-schedule";
@@ -20,11 +21,18 @@ const steps = [
   "Schedule"
 ];
 
-export function CreateSeriesWizard() {
+interface CreateSeriesWizardProps {
+  initialData?: any;
+  seriesId?: string;
+}
+
+export function CreateSeriesWizard({ initialData, seriesId }: CreateSeriesWizardProps = {}) {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = steps.length;
-  // This state would ideally be managed by a form library or context for complex forms
-  const [formData, setFormData] = useState({});
+  // Initialize formData with initialData if it exists
+  const [formData, setFormData] = useState(initialData || {});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -78,13 +86,14 @@ export function CreateSeriesWizard() {
       {/* Step Content */}
       <div className="min-h-[400px]">
         {currentStep === 1 && (
-            <NicheSelection onNext={handleStepComplete} />
+            <NicheSelection onNext={handleStepComplete} initialData={formData} />
         )}
 
         {currentStep === 2 && (
              <LanguageVoiceSelection 
                 onNext={handleStepComplete} 
                 onBack={prevStep}
+                initialData={formData}
              />
         )}
 
@@ -92,28 +101,53 @@ export function CreateSeriesWizard() {
              <BackgroundMusicSelection 
                 onNext={handleStepComplete} 
                 onBack={prevStep}
+                initialData={formData}
              />
         )}
         {currentStep === 4 && (
              <VideoStyleSelection 
                 onNext={handleStepComplete} 
                 onBack={prevStep}
+                initialData={formData}
              />
         )}
         {currentStep === 5 && (
              <CaptionStyleSelection 
                 onNext={handleStepComplete} 
                 onBack={prevStep}
+                initialData={formData}
              />
         )}
         {currentStep === 6 && (
              <SeriesSchedule 
-                onNext={(data) => {
-                  setFormData({ ...formData, ...data });
-                  console.log("Final Series Data:", { ...formData, ...data });
-                  alert("Series Scheduled Successfully!");
+                onNext={async (data) => {
+                  const finalData = { ...formData, ...data };
+                  setFormData(finalData);
+                  setIsSubmitting(true);
+                  try {
+                    const url = seriesId ? `/api/series/${seriesId}` : '/api/series';
+                    const method = seriesId ? 'PATCH' : 'POST';
+                    
+                    const response = await fetch(url, {
+                      method,
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(finalData),
+                    });
+                    if (!response.ok) {
+                      const errorData = await response.json();
+                      throw new Error(errorData.error || `Failed to ${seriesId ? 'update' : 'schedule'} series`);
+                    }
+                    router.push('/dashboard');
+                  } catch (err: any) {
+                    console.error("Submission error:", err);
+                    alert(`Error: ${err.message}`);
+                  } finally {
+                    setIsSubmitting(false);
+                  }
                 }} 
                 onBack={prevStep}
+                isSubmitting={isSubmitting}
+                initialData={formData}
              />
         )}
       </div>
