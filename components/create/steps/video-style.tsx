@@ -43,10 +43,11 @@ const videoStyles = [
 interface VideoStyleSelectionProps {
   onNext: (data: { videoStyleId: string }) => void;
   onBack: () => void;
+  initialData?: { videoStyleId?: string };
 }
 
-export function VideoStyleSelection({ onNext, onBack }: VideoStyleSelectionProps) {
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+export function VideoStyleSelection({ onNext, onBack, initialData }: VideoStyleSelectionProps) {
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(initialData?.videoStyleId || null);
 
   const handleNext = () => {
     if (selectedStyle) {

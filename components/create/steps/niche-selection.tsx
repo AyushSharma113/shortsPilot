@@ -62,16 +62,19 @@ const NICHE_OPTIONS: NicheOption[] = [
 
 interface NicheSelectionProps {
   onNext: (data: { niche: string; customNiche?: string }) => void;
+  initialData?: { niche?: string; customNiche?: string };
 }
 
 import { StepNavigation } from "@/components/create/step-navigation";
 
 // ... (existing constants)
 
-export function NicheSelection({ onNext }: NicheSelectionProps) {
-  const [selectedTab, setSelectedTab] = useState("available");
-  const [selectedNiche, setSelectedNiche] = useState<string | null>(null);
-  const [customNiche, setCustomNiche] = useState("");
+export function NicheSelection({ onNext, initialData }: NicheSelectionProps) {
+  const isCustomNiche = initialData?.niche === "custom" || (initialData?.niche && !NICHE_OPTIONS.find(n => n.id === initialData.niche));
+  
+  const [selectedTab, setSelectedTab] = useState(isCustomNiche ? "custom" : "available");
+  const [selectedNiche, setSelectedNiche] = useState<string | null>(!isCustomNiche ? (initialData?.niche || null) : null);
+  const [customNiche, setCustomNiche] = useState(initialData?.customNiche || (isCustomNiche ? initialData?.niche || "" : ""));
 
   const handleContinue = () => {
     if (selectedTab === "available" && selectedNiche) {

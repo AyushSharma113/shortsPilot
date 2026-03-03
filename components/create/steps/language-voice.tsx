@@ -13,11 +13,12 @@ import { Languages, DeepgramVoices, FonadalabVoices } from "@/components/create/
 interface LanguageVoiceSelectionProps {
   onNext: (data: { language: string; voice: string; isCloned?: boolean }) => void;
   onBack: () => void;
+  initialData?: { language?: string; voice?: string };
 }
 
-export function LanguageVoiceSelection({ onNext, onBack }: LanguageVoiceSelectionProps) {
-  const [selectedLangCode, setSelectedLangCode] = useState("en-US");
-  const [selectedVoice, setSelectedVoice] = useState<string | null>(null);
+export function LanguageVoiceSelection({ onNext, onBack, initialData }: LanguageVoiceSelectionProps) {
+  const [selectedLangCode, setSelectedLangCode] = useState(initialData?.language || "en-US");
+  const [selectedVoice, setSelectedVoice] = useState<string | null>(initialData?.voice || null);
   const [isPlaying, setIsPlaying] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 

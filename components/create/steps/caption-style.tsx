@@ -44,10 +44,11 @@ const captionStyles: { id: CaptionStyleType; name: string; description: string }
 interface CaptionStyleSelectionProps {
   onNext: (data: { captionStyleId: string }) => void;
   onBack: () => void;
+  initialData?: { captionStyleId?: string };
 }
 
-export function CaptionStyleSelection({ onNext, onBack }: CaptionStyleSelectionProps) {
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+export function CaptionStyleSelection({ onNext, onBack, initialData }: CaptionStyleSelectionProps) {
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(initialData?.captionStyleId || null);
 
   const handleNext = () => {
     if (selectedStyle) {
